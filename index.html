@@ -69,19 +69,30 @@
       meisje: 'Angela'
     };
 
-    // Random babynamen generator (alleen voor de animatie)
-    function genereerRandomNaam() {
-      const begin = ['Lo', 'Mi', 'Ja', 'Lu', 'An', 'Ki', 'Fe', 'Ro', 'Ni', 'To'];
-      const eind = ['na', 'sie', 'la', 'mo', 'rik', 'tje', 'el', 'us', 'ien', 'ko'];
-      const b = begin[Math.floor(Math.random() * begin.length)];
-      const e = eind[Math.floor(Math.random() * eind.length)];
-      return b + e;
-    }
+    // Lijsten met fictieve voorvoegsels en achtervoegsels per geslacht
+    const delen = {
+      jongen: {
+        begin: ['Lo', 'Da', 'Jo', 'Mi', 'Ti', 'Ro', 'Lu', 'Ke'],
+        eind: ['rik', 'no', 'ben', 'daan', 'ko', 'vin', 'sen', 'mo']
+      },
+      meisje: {
+        begin: ['An', 'Lu', 'Ki', 'Fe', 'Lo', 'Sofie', 'Zo', 'Me'],
+        eind: ['tje', 'lien', 'sie', 'na', 'a', 'la', 'ke', 'el']
+      }
+    };
 
     function kiesGeslacht(g) {
       geslacht = g;
       document.getElementById('keuze').style.display = 'none';
       document.getElementById('resultaat').style.display = 'block';
+    }
+
+    function genereerRandomNaam(geslacht) {
+      const b = delen[geslacht].begin;
+      const e = delen[geslacht].eind;
+      const voor = b[Math.floor(Math.random() * b.length)];
+      const achter = e[Math.floor(Math.random() * e.length)];
+      return voor + achter;
     }
 
     function genereerNaam() {
@@ -92,7 +103,7 @@
       const maxIterations = 20;
 
       const interval = setInterval(() => {
-        naamElement.textContent = genereerRandomNaam();
+        naamElement.textContent = genereerRandomNaam(geslacht);
         i++;
         if (i >= maxIterations) {
           clearInterval(interval);
