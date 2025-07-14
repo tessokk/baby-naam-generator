@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Baby Naam Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f9ff;
+      text-align: center;
+      padding: 50px;
+      overflow-x: hidden;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #0077b6;
+    }
+    #naam {
+      font-size: 3rem;
+      margin: 40px 0;
+      color: #023047;
+    }
+    button {
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover {
+      background-color: #005f8f;
+    }
+    #keuze {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>👶 Baby Naam Generator</h1>
+  
+  <div id="keuze">
+    <p>Wordt het een jongetje of een meisje?</p>
+    <button onclick="kiesGeslacht('jongen')">Jongen</button>
+    <button onclick="kiesGeslacht('meisje')">Meisje</button>
+  </div>
+
+  <div id="resultaat" style="display:none;">
+    <div id="naam">Klik op de knop!</div>
+    <button onclick="genereerNaam()">Genereer Naam</button>
+  </div>
+
+  <audio id="babygeluid" src="https://www.soundjay.com/human/baby-laugh-01.mp3" preload="auto"></audio>
+
+  <!-- Confetti script (van confetti.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    let geslacht = '';
+    const namen = {
+      jongen: ['Ruud'],
+      meisje: ['Angela']
+    };
+
+    function kiesGeslacht(g) {
+      geslacht = g;
+      document.getElementById('keuze').style.display = 'none';
+      document.getElementById('resultaat').style.display = 'block';
+    }
+
+    function genereerNaam() {
+      const audio = document.getElementById("babygeluid");
+      const naam = namen[geslacht][Math.floor(Math.random() * namen[geslacht].length)];
+      document.getElementById("naam").textContent = naam;
+      audio.currentTime = 0;
+      audio.play();
+
+      // 🎉 Confetti effect
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+  </script>
+</body>
+</html>
