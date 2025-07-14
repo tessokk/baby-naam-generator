@@ -20,6 +20,7 @@
       font-size: 3rem;
       margin: 40px 0;
       color: #023047;
+      min-height: 3.5rem;
     }
     button {
       background-color: #0077b6;
@@ -50,16 +51,15 @@
 
   <div id="resultaat" style="display:none;">
     <div id="naam">Klik op de knop!</div>
-    <button onclick="genereerNaam()">Genereer Naam</button>
+    <button onclick="genereerNaam()">🎲 Genereer Naam</button>
   </div>
 
   <audio id="babygeluid" src="https://www.soundjay.com/human/baby-laugh-01.mp3" preload="auto"></audio>
-
-  <!-- Confetti script (van confetti.js) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     let geslacht = '';
+    const alleNamen = ['Emma', 'Liam', 'Mila', 'Daan', 'Noor', 'Ties', 'Lotte', 'Finn', 'Ruud', 'Angela']; // dummy namen
     const namen = {
       jongen: ['Ruud'],
       meisje: ['Angela']
@@ -72,18 +72,32 @@
     }
 
     function genereerNaam() {
+      const naamElement = document.getElementById("naam");
       const audio = document.getElementById("babygeluid");
-      const naam = namen[geslacht][Math.floor(Math.random() * namen[geslacht].length)];
-      document.getElementById("naam").textContent = naam;
-      audio.currentTime = 0;
-      audio.play();
 
-      // 🎉 Confetti effect
-      confetti({
-        particleCount: 120,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
+      let i = 0;
+      const maxIterations = 20;
+      const interval = setInterval(() => {
+        const random = alleNamen[Math.floor(Math.random() * alleNamen.length)];
+        naamElement.textContent = random;
+        i++;
+        if (i >= maxIterations) {
+          clearInterval(interval);
+          const echteNaam = namen[geslacht][0];
+          naamElement.textContent = echteNaam;
+
+          // 🎉 Confetti
+          confetti({
+            particleCount: 120,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+
+          // 👶 Geluid
+          audio.currentTime = 0;
+          audio.play();
+        }
+      }, 80); // snelheid van draaien
     }
   </script>
 </body>
